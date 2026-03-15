@@ -57,7 +57,7 @@ The Power BI dashboard provides a clear overview of EV adoption patterns includi
 * Category-wise EV distribution
 * Monthly sales patterns
 
-![Dashboard Preview](dashboard.png)
+![Dashboard Preview](Dashboard.png)
 
 ---
 
