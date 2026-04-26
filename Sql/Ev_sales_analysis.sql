@@ -20,7 +20,7 @@ Select
 FROM ev_sales
 GROUP BY year
 ORDER BY year;
--- Contast Yearly growth can be seen
+-- Consistent Yearly growth can be seen
 
 -- Top 10 By EV adoption 
 SELECT state, SUM(ev_sales_quantity) AS total_sales
@@ -29,6 +29,18 @@ GROUP BY state
 ORDER BY total_sales DESC
 LIMIT 10;
  -- UP, Maharastra, Karnataka, Delhi, Rajasthan Being the top 5 Respectively
+
+--top 5 states contribution to the market share
+SELECT 
+  SUM(total_sales) * 100.0 / (SELECT SUM(ev_sales_quantity) FROM ev_sales) AS contribution_percentage
+FROM (
+  SELECT state, SUM(ev_sales_quantity) AS total_sales
+  FROM ev_sales
+  GROUP BY state
+  ORDER BY total_sales DESC
+  LIMIT 5
+) t;
+-- Top 5 states contribute to ~ 54% of the total market share
 
 -- State wise growth
 SELECT state, year, SUM(ev_sales_quantity) AS yearly_sales
@@ -43,6 +55,15 @@ FROM ev_sales
 GROUP BY vehicle_category
 ORDER BY total_sales DESC;
 -- 2 Wheelers shows the highest sales followed by 3 and 4 wheelers
+
+-- Vehicle category market share
+SELECT 
+  vehicle_category,
+  SUM(ev_sales_quantity) * 100.0 / (SELECT SUM(ev_sales_quantity) FROM ev_sales) AS percentage
+FROM ev_sales
+GROUP BY vehicle_category
+ORDER BY percentage DESC;
+-- 2 wheelers contribute to ~50% of the total market share followed by 3 wheelers and 4 wheelers
 
 -- Vehicle class analysis
 SELECT vehicle_class, SUM(ev_sales_quantity) AS total_sales
